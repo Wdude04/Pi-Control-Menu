@@ -172,6 +172,7 @@ def update():
     subprocess.check_call([sys.executable, '-m', 'pip', 'install', '-U',
                'git+https://github.com/Wdude04/Pi-Control-Menu.git#pi-control-menu'])
     os.execv(sys.executable, sys.argv)
+    sys.exit()
 
 
 def main():
@@ -194,7 +195,7 @@ def main():
     main_menu = Menu()
     main_menu.add_menu_item("network", callback=lambda: state.set_menu(network_menu))
     main_menu.add_menu_item("update", callback=update)
-    main_menu.add_menu_item("exit", callback=exit)
+    main_menu.add_menu_item("exit", callback=sys.exit)
     main_menu.add_menu_item("reboot", callback=reboot)
 
     state.set_menu(main_menu)
