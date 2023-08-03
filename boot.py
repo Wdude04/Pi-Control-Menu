@@ -174,7 +174,7 @@ def update():
     os.chdir(current_directory)
     GPIO.cleanup()
     print("exec = " + sys.executable)
-    print("argv = " + sys.argv)
+    print("argv = " + str(sys.argv))
     os.execv(sys.executable, ['python3'] + sys.argv)
 
 
