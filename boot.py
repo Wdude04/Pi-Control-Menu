@@ -172,7 +172,10 @@ def update():
     os.chdir(script_directory)
     os.system("git pull https://github.com/Wdude04/Pi-Control-Menu.git")
     os.chdir(current_directory)
-    os.execv(sys.executable, sys.argv)
+    GPIO.cleanup()
+    print("exec = " + sys.executable)
+    print("argv = " + sys.argv)
+    os.execv(sys.executable, ['python3'] + sys.argv)
 
 
 def main():
