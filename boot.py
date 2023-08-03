@@ -4,6 +4,8 @@ import os
 import subprocess
 import sys
 import atexit
+import requests
+from io import BytesIO
 from time import sleep
 import RPi.GPIO as GPIO
 from PIL import Image,ImageDraw,ImageFont,ImageColor
@@ -81,6 +83,37 @@ class State:
 
     def key_released(self, key):
         pass
+
+
+class CatMenu:
+    def __init__(self):
+        self.url = "https://api.thecatapi.com/v1/images/search"
+        self.image = None
+        self.get_new_cat()
+
+    def get_new_cat(self):
+        image_bytes = requests.get(self.url)
+        image = Image.open(BytesIO(image_bytes.content))
+        image = image.resize((128,128))
+        self.image = image.convert("RGB")
+
+    def get_image(self):
+        return self.image
+    
+    def select_item(self):
+        self.get_new_cat()
+
+    def move_up(self):
+        pass
+    
+    def move_down(self):
+        pass
+    
+    def focus(self):
+        pass
+
+    def unfocus(self):
+        self.get_new_cat()
 
 
 class Menu:
@@ -195,8 +228,11 @@ def main():
     network_menu.add_menu_item("ip", dynamic=True, dynamic_callback=lambda: f"ip: {get_ip_address()}")
     network_menu.add_menu_item("users", dynamic=True, dynamic_callback=lambda: f"users: {get_user_count()}")
 
+    cat_menu = CatMenu()
+
     main_menu = Menu()
     main_menu.add_menu_item("network", callback=lambda: state.set_menu(network_menu))
+    main_menu.add_menu_item("cat", callback=lambda: state.set_menu(cat_menu))
     main_menu.add_menu_item("update", callback=update)
     main_menu.add_menu_item("exit", callback=sys.exit)
     main_menu.add_menu_item("reboot", callback=reboot)
