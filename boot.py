@@ -4,7 +4,6 @@ import os
 import subprocess
 import sys
 import atexit
-from git import Repo
 from time import sleep
 import RPi.GPIO as GPIO
 from PIL import Image,ImageDraw,ImageFont,ImageColor
@@ -168,11 +167,12 @@ def reboot():
 
 
 def update():
-    repo = Repo(self.rorepo.working_tree_dir)
-    subprocess.check_call([sys.executable, '-m', 'pip', 'install', '-U',
-               'git+https://github.com/Wdude04/Pi-Control-Menu.git'])
+    current_directory = os.getcwd()
+    script_directory = os.path.dirname(os.path.abspath(sys.argv[0]))
+    os.chdir(script_directory)
+    os.system("git pull https://github.com/Wdude04/Pi-Control-Menu.git")
+    os.chdir(current_directory)
     os.execv(sys.executable, sys.argv)
-    sys.exit()
 
 
 def main():
