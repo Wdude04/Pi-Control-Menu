@@ -108,10 +108,10 @@ class CatMenu:
         pass
     
     def focus(self):
-        pass
+        self.get_new_cat()
 
     def unfocus(self):
-        self.get_new_cat()
+        pass
 
 
 class Menu:
