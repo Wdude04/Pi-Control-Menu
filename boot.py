@@ -91,8 +91,9 @@ class CatMenu:
         self.image = None
 
     def get_new_cat(self):
-        image_bytes = requests.get(self.url, stream=True)
-        image = Image.open(BytesIO(image_bytes))
+        image_search = requests.get(self.url).json()
+        image_bytes = requests.get(image_search["url"], stream=True)
+        image = Image.open(BytesIO(image_bytes.content))
         self.image = image.convert("RGB")
 
     def get_image(self, lcd):
