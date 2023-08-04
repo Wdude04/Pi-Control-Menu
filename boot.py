@@ -92,7 +92,7 @@ class CatMenu:
 
     def get_new_cat(self):
         image_bytes = requests.get(self.url, stream=True)
-        image = Image.open(image_bytes.raw)
+        image = Image.open(BytesIO(image_bytes))
         self.image = image.convert("RGB")
 
     def get_image(self, lcd):
