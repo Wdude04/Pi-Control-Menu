@@ -89,11 +89,10 @@ class CatMenu:
     def __init__(self):
         self.url = "https://api.thecatapi.com/v1/images/search"
         self.image = None
-        self.get_new_cat()
 
     def get_new_cat(self):
-        image_bytes = requests.get(self.url)
-        image = Image.open(BytesIO(image_bytes.content))
+        image_bytes = requests.get(self.url, stream=True)
+        image = Image.open(image_bytes.raw)
         image = image.resize((128,128))
         self.image = image.convert("RGB")
 
