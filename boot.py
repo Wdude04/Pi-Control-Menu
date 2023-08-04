@@ -96,6 +96,8 @@ class CatMenu:
         self.image = image.convert("RGB")
 
     def get_image(self, lcd):
+        if self.image is None:
+            self.get_new_cat()
         return self.image.resize((lcd.width, lcd.height))
     
     def select_item(self):
